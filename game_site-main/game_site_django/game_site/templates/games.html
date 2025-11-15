@@ -1,0 +1,354 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-5">
+  <!-- ==== ADD GAME FORM ==== -->
+  <form class="col-md-8 mx-auto card p-3 shadow-lg" method="post">
+    {% csrf_token %}
+    <h3 class="mb-3">Add Game</h3>
+
+    <div class="form-group mb-3">
+      <label>Title*</label>
+      <input name="game_name" type="text" class="form-control" required />
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Genre*</label>
+      <select name="genre" class="form-control" required>
+        <option value="">-- Choose genre --</option>
+        {% for g in genres %}
+          <option value="{{ g.id }}">{{ g.Genre_Name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Platform*</label>
+      <select name="platform" class="form-control" required>
+        <option value="">-- Choose platform --</option>
+        {% for p in platforms %}
+          <option value="{{ p.id }}">{{ p.Platform_Name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Store*</label>
+      <select name="store" class="form-control" required>
+        <option value="">-- Choose store --</option>
+        {% for s in stores %}
+          <option value="{{ s.id }}">{{ s.Store_Name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button class="btn btn-outline-secondary mb-3"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#optionalFields"
+            aria-expanded="false">
+      Optional ▼
+    </button>
+
+    <!-- ==== FULL OPTIONAL FIELDS (collapsed) ==== -->
+    <div class="collapse" id="optionalFields">
+
+      <!-- Size -->
+      <div class="form-group mb-3">
+        <label>Size</label>
+        <select name="size" class="form-control">
+          <option value="">-- none --</option>
+          {% for sz in sizes %}
+            <option value="{{ sz.id }}">{{ sz.size_type }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Developer -->
+      <div class="form-group mb-3">
+        <label>Developer</label>
+        <select name="developer" class="form-control">
+          <option value="">-- none --</option>
+          {% for d in developers %}
+            <option value="{{ d.id }}">{{ d }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Publisher -->
+      <div class="form-group mb-3">
+        <label>Publisher</label>
+        <select name="publisher" class="form-control">
+          <option value="">-- none --</option>
+          {% for p in publishers %}
+            <option value="{{ p.id }}">{{ p.publisher_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Language -->
+      <div class="form-group mb-3">
+        <label>Language</label>
+        <select name="language" class="form-control">
+          <option value="">-- none --</option>
+          {% for l in languages %}
+            <option value="{{ l.id }}">{{ l.language_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- DLC -->
+      <div class="form-group mb-3">
+        <label>DLC</label>
+        <select name="dlc" class="form-control">
+          <option value="">-- none --</option>
+          {% for d in dlcs %}
+            <option value="{{ d.id }}">{{ d.dlc_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Game mode -->
+      <div class="form-group mb-3">
+        <label>Game mode</label>
+        <select name="game_mode" class="form-control">
+          <option value="">-- none --</option>
+          {% for gm in gamemodes %}
+            <option value="{{ gm.id }}">{{ gm.mode_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- License -->
+      <div class="form-group mb-3">
+        <label>License</label>
+        <select name="license" class="form-control">
+          <option value="">-- none --</option>
+          {% for l in licenses %}
+            <option value="{{ l.id }}">{{ l.license_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- System requirements -->
+      <div class="form-group mb-3">
+        <label>System requirements</label>
+        <select name="system_requirements" class="form-control">
+          <option value="">-- none --</option>
+          {% for sr in sysreqs %}
+            <option value="{{ sr.id }}">{{ sr.operating_system }} – {{ sr.processor }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Review -->
+      <div class="form-group mb-3">
+        <label>Review</label>
+        <select name="review" class="form-control">
+          <option value="">-- none --</option>
+          {% for r in reviews %}
+            <option value="{{ r.id }}">Rating {{ r.rating }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Multimedia -->
+      <div class="form-group mb-3">
+        <label>Multimedia</label>
+        <select name="multimedia" class="form-control">
+          <option value="">-- none --</option>
+          {% for m in multimedias %}
+            <option value="{{ m.id }}">{{ m.website }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Status -->
+      <div class="form-group mb-3">
+        <label>Status</label>
+        <select name="status" class="form-control">
+          <option value="">-- none --</option>
+          {% for st in statuses %}
+            <option value="{{ st.id }}">{{ st.status_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Sales history -->
+      <div class="form-group mb-3">
+        <label>Sales history</label>
+        <select name="sales_history" class="form-control">
+          <option value="">-- none --</option>
+          {% for sh in sales_histories %}
+            <option value="{{ sh.id }}">{{ sh.units_sold }} sold</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Game log -->
+      <div class="form-group mb-3">
+        <label>Game log</label>
+        <select name="game_log" class="form-control">
+          <option value="">-- none --</option>
+          {% for gl in gamelogs %}
+            <option value="{{ gl.id }}">{{ gl.log_description|truncatechars:30 }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Rating -->
+      <div class="form-group mb-3">
+        <label>Rating</label>
+        <select name="rating" class="form-control">
+          <option value="">-- none --</option>
+          {% for ra in ratings %}
+            <option value="{{ ra.id }}">{{ ra.rating_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Online status -->
+      <div class="form-group mb-3">
+        <label>Online status</label>
+        <select name="online_status" class="form-control">
+          <option value="">-- none --</option>
+          {% for os in online_statuses %}
+            <option value="{{ os.id }}">{{ os.active_players }} active / {{ os.registered_players }} total</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Award -->
+      <div class="form-group mb-3">
+        <label>Award</label>
+        <select name="award" class="form-control">
+          <option value="">-- none --</option>
+          {% for aw in awards %}
+            <option value="{{ aw.id }}">{{ aw.award_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+    </div>   <!-- end of .collapse -->
+
+    <button type="submit" class="btn btn-success mt-3">Add Game</button>
+  </form>
+
+  <hr class="my-5" />
+
+  <!-- ==== FILTER + SEARCH BAR (copied from home.html) ==== -->
+  <form method="get" class="card p-3 shadow-sm">
+    <div class="row g-3 align-items-end">
+      <!-- Search -->
+      <div class="col-md-3">
+        <label class="form-label">Search game</label>
+        <input name="search" type="text" class="form-control"
+               value="{{ search }}" placeholder="Enter title..." />
+      </div>
+
+      <!-- Genre -->
+      <div class="col-md-2">
+        <label class="form-label">Genre</label>
+        <select name="genre" class="form-select">
+          <option value="">All</option>
+          {% for g in genres %}
+            <option value="{{ g.id }}" {% if g.id|stringformat:"s" == selected_genre %}selected{% endif %}>
+              {{ g.Genre_Name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Platform -->
+      <div class="col-md-2">
+        <label class="form-label">Platform</label>
+        <select name="platform" class="form-select">
+          <option value="">All</option>
+          {% for p in platforms %}
+            <option value="{{ p.id }}" {% if p.id|stringformat:"s" == selected_platform %}selected{% endif %}>
+              {{ p.Platform_Name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Store -->
+      <div class="col-md-2">
+        <label class="form-label">Store</label>
+        <select name="store" class="form-select">
+          <option value="">All</option>
+          {% for s in stores %}
+            <option value="{{ s.id }}" {% if s.id|stringformat:"s" == selected_store %}selected{% endif %}>
+              {{ s.Store_Name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Whitelisted? -->
+      <div class="col-md-2">
+        <label class="form-label">Whitelisted?</label>
+        <select name="whitelisted" class="form-select">
+          <option value="">All</option>
+          <option value="yes" {% if whitelisted == "yes" %}selected{% endif %}>Yes</option>
+          <option value="no"  {% if whitelisted == "no" %}selected{% endif %}>No</option>
+        </select>
+      </div>
+
+      <!-- Sort -->
+      <div class="col-md-2">
+        <label class="form-label">Sort by</label>
+        <select name="sort" class="form-select">
+          <option value="">Default</option>
+          <option value="name" {% if sort_by == "name" %}selected{% endif %}>Name (A–Z)</option>
+          <option value="rating" {% if sort_by == "rating" %}selected{% endif %}>Rating</option>
+          <option value="players" {% if sort_by == "players" %}selected{% endif %}>Player Count</option>
+        </select>
+      </div>
+
+      <!-- Buttons -->
+     <div class="col-12 d-flex justify-content-center mt-3 mb-4">
+    <div class="btn-group gap-2" role="group">
+        <button class="btn btn-success" type="submit">Go</button>
+        <a href="{% url 'games' %}" class="btn btn-secondary">Clear</a>
+    </div>
+</div>
+  </form>
+
+  <!-- ==== GAMES TABLE ==== -->
+  <table class="table table-striped table-hover align-middle">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Genre</th>
+        <th>Platform</th>
+        <th>Store</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for game in games %}
+        <tr>
+          <td>{{ game.id }}</td>
+          <td>{{ game.game_name }}</td>
+          <td>{{ game.genre }}</td>
+          <td>{{ game.platform }}</td>
+          <td>{{ game.store }}</td>
+          <td>
+            <a href="/update_game/{{ game.id }}" class="btn btn-success btn-sm">Edit</a>
+            <a href="/delete_game/{{ game.id }}" class="btn btn-danger btn-sm">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6" class="text-center text-muted">No games found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<h1 class="text-center mt-4">Welcome to GameSite!</h1>
+
+<div class="container mt-5">
+  <!-- 🔍 Search & Filter Form -->
+  <form method="get" class="card p-3 shadow-sm">
+    <div class="row g-3 align-items-end">
+      <!-- Search -->
+      <div class="col-md-3">
+        <label class="form-label">Search game</label>
+        <input
+          name="search"
+          type="text"
+          class="form-control"
+          value="{{ search }}"
+          placeholder="Enter title..."
+        />
+      </div>
+
+      <!-- Genre -->
+      <div class="col-md-2">
+        <label class="form-label">Genre</label>
+        <select name="genre" class="form-select">
+          <option value="">All</option>
+          {% for g in genres %}
+            <option value="{{ g.id }}" {% if g.id|stringformat:"s" == selected_genre %}selected{% endif %}>{{ g.Genre_Name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Platform -->
+      <div class="col-md-2">
+        <label class="form-label">Platform</label>
+        <select name="platform" class="form-select">
+          <option value="">All</option>
+          {% for p in platforms %}
+            <option value="{{ p.id }}" {% if p.id|stringformat:"s" == selected_platform %}selected{% endif %}>{{ p.Platform_Name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Store -->
+      <div class="col-md-2">
+        <label class="form-label">Store</label>
+        <select name="store" class="form-select">
+          <option value="">All</option>
+          {% for s in stores %}
+            <option value="{{ s.id }}" {% if s.id|stringformat:"s" == selected_store %}selected{% endif %}>{{ s.Store_Name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+	  
+		  <!-- Whitelisted? (Yes / No) -->
+		  {% if user.is_authenticated %}
+	<div class="col-md-2">
+		<label class="form-label">Whitelisted?</label>
+		<select name="whitelisted" class="form-select">
+			<option value="">All</option>
+			<option value="yes" {% if whitelisted == "yes" %}selected{% endif %}>Yes</option>
+			<option value="no"  {% if whitelisted == "no" %}selected{% endif %}>No</option>
+		</select>
+	</div>
+	{% endif %}
+
+      <!-- Sort -->
+      <div class="col-md-2">
+        <label class="form-label">Sort by</label>
+        <select name="sort" class="form-select">
+          <option value="">Default</option>
+          <option value="name" {% if sort_by == "name" %}selected{% endif %}>Name (A–Z)</option>
+          <option value="rating" {% if sort_by == "rating" %}selected{% endif %}>Rating</option>
+          <option value="players" {% if sort_by == "players" %}selected{% endif %}>Player Count</option>
+        </select>
+      </div>
+
+      <!-- Buttons -->
+     <div class="col-12 d-flex justify-content-center mt-3 mb-4">
+    <div class="btn-group gap-2" role="group">
+        <button class="btn btn-success" type="submit">Go</button>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Clear</a>
+    </div>
+</div>
+    </div>
+  </form>
+
+  <!-- 🎮 Results Table -->
+  <table class="table table-hover align-middle text-light bg-dark">
+
+    <thead class="table-dark">
+      <tr>
+	  {% if user.is_authenticated %}
+	    <th>Whitelist</th>
+		{% endif %}
+        <th>Title</th>
+        <th>Genre</th>
+        <th>Platform</th>
+        <th>Store</th>
+        <th>Rating</th>
+        <th>Players</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for game in games %}
+      <tr class="game-row" data-id="{{ game.id }}" style="cursor: pointer;">
+    <!-- WHITELIST CHECKBOX -->
+	{% if user.is_authenticated %}
+    <td class="align-middle text-center">
+        <form method="post" action="{% url 'toggle_whitelist' game.id %}">
+            {% csrf_token %}
+            <input type="checkbox"
+                   name="whitelist"
+                   onchange="this.form.submit()"
+                   {% if game in request.user.whitelisted_games.all %}checked{% endif %}>
+        </form>
+    </td>
+	{% endif %}
+
+    <!-- existing cells – copy‑paste them unchanged -->
+    <td>{{ game.game_name }}</td>
+    <td>{{ game.genre }}</td>
+    <td>{{ game.platform }}</td>
+    <td>{{ game.store }}</td>
+    <td>{{ game.review.rating|default:"–" }}</td>
+    <td>{{ game.online_status.active_players|default:"–" }}</td>
+</tr>
+      {% empty %}
+      <tr><td colspan="6" class="text-center text-muted">No games found</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- 🪟 Game Details Modal -->
+<div class="modal fade" id="gameModal" tabindex="-1" aria-labelledby="gameModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="gameModalLabel">Game Details</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Genre:</strong> <span id="modalGenre"></span></p>
+        <p><strong>Platform:</strong> <span id="modalPlatform"></span></p>
+        <p><strong>Store:</strong> <span id="modalStore"></span></p>
+        <p><strong>Developer:</strong> <span id="modalDeveloper"></span></p>
+        <p><strong>Publisher:</strong> <span id="modalPublisher"></span></p>
+        <p><strong>DLC:</strong> <span id="modalDlc"></span></p>
+        <p><strong>Mode:</strong> <span id="modalMode"></span></p>
+        <p><strong>License:</strong> <span id="modalLicense"></span></p>
+        <p><strong>System Requirements:</strong><br>
+           <small id="modalSysReq"></small>
+        </p>
+        <p><strong>Rating:</strong> <span id="modalRating"></span></p>
+        <p><strong>Active Players:</strong> <span id="modalPlayers"></span></p>
+        <p><strong>Award:</strong> <span id="modalAward"></span></p>
+        <p><strong>Language:</strong> <span id="modalLanguage"></span></p>
+        <p><strong>Units Sold:</strong> <span id="modalSales"></span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⚙️ JS: Clickable rows + AJAX modal -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const rows = document.querySelectorAll(".game-row");
+  const modal = new bootstrap.Modal(document.getElementById("gameModal"));
+
+  rows.forEach(row => {
+    row.addEventListener("click", async () => {
+      const gameId = row.dataset.id;
+
+      try {
+        const response = await fetch(`/game/${gameId}/json/`);
+        const data = await response.json();
+
+        document.getElementById("gameModalLabel").textContent = data.name;
+        document.getElementById("modalGenre").textContent = data.genre;
+        document.getElementById("modalPlatform").textContent = data.platform;
+        document.getElementById("modalStore").textContent = data.store;
+        document.getElementById("modalDeveloper").textContent = data.developer;
+        document.getElementById("modalPublisher").textContent = data.publisher;
+        document.getElementById("modalDlc").textContent = data.dlc;
+        document.getElementById("modalMode").textContent = data.mode;
+        document.getElementById("modalLicense").textContent = data.license;
+        document.getElementById("modalSysReq").textContent =
+          `${data.system_requirements.os}, ${data.system_requirements.cpu}, ${data.system_requirements.ram}, ${data.system_requirements.gpu}`;
+        document.getElementById("modalRating").textContent = data.rating;
+        document.getElementById("modalPlayers").textContent = data.players;
+        document.getElementById("modalAward").textContent = data.award;
+        document.getElementById("modalLanguage").textContent = data.language;
+        document.getElementById("modalSales").textContent = data.sales;
+
+        modal.show();
+      } catch (error) {
+        console.error("Error loading game details:", error);
+      }
+    });
+  });
+});
+</script>
+
+{% endblock %}
