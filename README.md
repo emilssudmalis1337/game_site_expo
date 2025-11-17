@@ -1,4 +1,4 @@
-Komandas dalībnieki: Sudmalis, Berbeņovs
+![Screenshot_20251117_194114_host exp exponent](https://github.com/user-attachments/assets/ef42ed00-933b-4076-8fdc-0b6dd596a51e)Komandas dalībnieki: Sudmalis, Berbeņovs
 
 Projekta nosaukums: Videospēļu mobilā lietotne "GameSite"
 
@@ -26,19 +26,27 @@ Izmantojot cmd un komand ipconfig, nepieciešams uzzināt savu IP adresi, kas ir
 
 Ekrānšāviņi un īss apraksts:
 
+![Screenshot_20251117_194114_host exp exponent](https://github.com/user-attachments/assets/2f908d86-b17e-4524-ae30-7a8844fe37c3)  
+Jauna lietotāja reģistrēšanās skats.  
 
+![Screenshot_20251117_194052_host exp exponent](https://github.com/user-attachments/assets/1fef83b4-26e3-4e0a-a6f6-005a048be621)  
+Homepage skats.  
 
-Galvenais "GameSite" skats ar meklēšanas un filtrēšanas iespējām. image Jaunas spēles pievienošanas skats. image Izdzēstas spēles skats. image Pieslēgšanās kontam skats. image Jauna lietotāja reģistrācijas skats.
+![Screenshot_20251117_194104_host exp exponent](https://github.com/user-attachments/assets/6c51ead7-36af-4d54-89dc-698501434fe0)  
+Jaunas spēles pievienošanas skats.  
 
 Izmantoto bibliotēku saraksts:
 
-Projektā nav izmantotas trešo pušu bibliotēkas, taču ir izmantoti vairāki Django moduļi, piemēram, django.contrib.admin, django.urls, django.http u.c. Izmantoti arī standarta moduļi, kā datetime, uuid un os. Priekš grafiskā interfeisa, izmantots Bootstrap, kas ielādēts caur CDN.
+Lai izmantotu šo programmu, nepieciešams ielādēt bibliotēkas un rīkus:  
+Django REST framework;  
+CORS headers.
 
 Arhitektūras diagramma un apraksts:
-image Šajā diagrammā attēloti galvenie sistēmas moduļi, kas izpilda atbilstošās prasības. Kopumā sistēmā ir 9 šādi moduļi, kas katrs atbild par savu funkcionalitāti, piemēram, modulis P1.1 "Lietotāja konta reģistrācija" atbild par jauna lietotāja reģistrāciju un pievienošanu datu bāzes Users tabulai, bet modulis P2.3 "Spēles dzēšana" atbild par jau eksistējošas spēles izdzēšanu no datu bāzes.
+<img width="675" height="343" alt="image" src="https://github.com/user-attachments/assets/0002f44d-38a4-4610-ab53-8576f592a589" />  
+
+Šajā diagrammā attēloti galvenie sistēmas moduļi, kas izpilda atbilstošās prasības. Kopumā sistēmā ir 8 šādi moduļi, kas katrs atbild par savu funkcionalitāti, piemēram, modulis P1.1 "Lietotāja konta reģistrācija" atbild par jauna lietotāja reģistrāciju un pievienošanu datu bāzes Users tabulai, bet modulis P2.3 "Spēles dzēšana" atbild par jau eksistējošas spēles izdzēšanu no datu bāzes.
 
 Idejas nākotnes uzlabojumiem:
 
-Spēļu salīdzināšana - ļaut veikt vairāku spēļu salīdzināšanu side-by-side,
-Diagrammu pievienošana - dažādus spēļu datus parādīt diagrammu veidā,
-Izmantot reālus datus - izmantojot Steam vai kādu citu API iegūt reālus spēļu datus.
+Ļaut lietotājiem veikt arī spēļu filtrēšanu un kārtošanu;
+Izmantot reālus datus - piemēram, no Steam.
