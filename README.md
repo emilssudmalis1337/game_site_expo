@@ -21,6 +21,7 @@ Palaist komandu cd <atzipotās_mapes_lokācija>\game_site-main\game_site_django
 Palaist komandu python manage.py makemigrations
 Palaist komandu python manage.py migrate
 Palaist komandu python manage.py runserver 0.0.0.0:8000
+Kad uz datora viss ir uzinstalēts, nepieciešams app mapi ievietot Expo instalācijas vietā.
 Lai palaistu Expo aplikāciju, ir nepieciešams, ka telefons un dators ir uz viena un tā paša tīkla. Manā gadījumā, izmantoju USB tethering opciju no telefona.
 Izmantojot cmd un komand ipconfig, nepieciešams uzzināt savu IP adresi, kas ir jāieraksta Expo failos. Ir jāatrod visas instances, kur parādās 192.168.42.41:8000 un jāaizvieto ar savu IP adresi:8000.
 
