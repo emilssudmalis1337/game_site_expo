@@ -1,4 +1,4 @@
-![Screenshot_20251117_194114_host exp exponent](https://github.com/user-attachments/assets/ef42ed00-933b-4076-8fdc-0b6dd596a51e)Komandas dalībnieki: Sudmalis, Berbeņovs
+Komandas dalībnieki: Sudmalis, Berbeņovs
 
 Projekta nosaukums: Videospēļu mobilā lietotne "GameSite"
 
